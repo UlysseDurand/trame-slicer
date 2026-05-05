@@ -10,6 +10,7 @@ from .layout_button_logic import LayoutButtonLogic
 from .load_volume_logic import LoadVolumeLogic
 from .markups_button_logic import MarkupsButtonLogic
 from .mpr_interaction_button_logic import MprInteractionButtonLogic
+from .radial_markups_button_logic import RadialMarkupsButtonLogic
 from .segmentation import SegmentEditorLogic
 from .slab_logic import SlabLogic
 from .volume_property_logic import VolumePropertyLogic
@@ -27,6 +28,7 @@ class MedicalViewerLogic(BaseLogic[ViewerLayoutState]):
         self._volume_properties_logic = VolumePropertyLogic(server, slicer_app)
         self._layout_button_logic = LayoutButtonLogic(server, slicer_app)
         self._markups_logic = MarkupsButtonLogic(server, slicer_app)
+        self._radial_markups_logic = RadialMarkupsButtonLogic(server, slicer_app)
         self._load_files_logic = LoadVolumeLogic(server, slicer_app)
         self._download_scene_logic = DownloadSceneLogic(server, slicer_app)
         self._slab_logic = SlabLogic(server, slicer_app)
@@ -52,6 +54,7 @@ class MedicalViewerLogic(BaseLogic[ViewerLayoutState]):
         self._volume_properties_logic.set_ui(ui.tool_registry[VolumePropertyUI])
         self._layout_button_logic.set_ui(ui.layout_button)
         self._markups_logic.set_ui(ui.markups_button)
+        self._radial_markups_logic.set_ui(ui.radial_markups_buttons)
         self._load_files_logic.set_ui(ui.load_volume_items_buttons)
         self._download_scene_logic.set_ui(ui.download_scene_button)
         self._slab_logic.set_ui(ui.slab_button)

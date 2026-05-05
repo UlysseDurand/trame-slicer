@@ -8,6 +8,7 @@ from .load_volume_ui import LoadVolumeState, LoadVolumeUI
 from .markups_button import MarkupsButton
 from .medical_viewer_ui import MedicalViewerUI
 from .mpr_interaction_button import MprInteractionButton, MprInteractionButtonState
+from .radial_markup_buttons import RadialMarkupsButton
 from .segmentation import (
     BrushParametersState,
     BrushParametersUI,
@@ -81,6 +82,7 @@ __all__ = [
     "PaintEffectState",
     "PaintEffectUI",
     "Preset",
+    "RadialMarkupsButton",
     "RangeSlider",
     "RangeSliderState",
     "ScissorsEffectState",

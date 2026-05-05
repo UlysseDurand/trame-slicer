@@ -1,0 +1,32 @@
+from collections.abc import Callable
+
+from trame.widgets import html
+from trame.widgets.radial_menu import RadItem
+from trame.widgets.vuetify3 import VBtn, VTooltip
+
+
+class RadItemButton(RadItem):
+
+    def __init__(
+        self, 
+        name: str, 
+        icon: str | tuple, 
+        click: Callable | str | None = None, 
+        **kwargs,
+    ) -> None:
+        super().__init__(**kwargs)
+
+        def on_click():
+            self.ctrl.close_radial_menu()
+            click()
+
+        with (
+            self,
+            VTooltip(text=name),
+            html.Template(v_slot_activator="{ props }"),
+        ):
+            VBtn(
+                icon=icon,
+                click=on_click,
+                v_bind="props",
+            )

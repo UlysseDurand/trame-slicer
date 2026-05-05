@@ -1,7 +1,5 @@
+from trame.widgets.radial_menu import RadWheel
 from trame.widgets.vuetify3 import Template
-from trame.widgets import html
-from trame.widgets.radial_menu import RadItem, RadMenu, RadWheel
-
 from trame_server import Server
 
 from trame_slicer.core import LayoutManager
@@ -13,6 +11,7 @@ from .layout_button import LayoutButton
 from .load_volume_ui import LoadVolumeUI
 from .markups_button import MarkupsButton
 from .mpr_interaction_button import MprInteractionButton
+from .radial_markup_buttons import RadialMarkupsButton
 from .segmentation import (
     SegmentEditorUI,
     SegmentEditorUndoRedoUI,
@@ -56,17 +55,9 @@ class MedicalViewerUI:
 
             with self.layout.content:
                 layout_manager.initialize_layout_grid(self.layout)
-                with RadMenu() as menu:
-                    with RadWheel():
-                        with RadItem():
-                            html.H1("TEST1")
-                        with RadItem():
-                            html.H1("TEST2")
-                        with RadItem():
-                            html.H1("TEST3")
-                    with menu.sideMenu():
-                        html.H1("TEST 4")
-                    
+            
+            with self.layout.rad_menu, RadialMarkupsButton() as self.radial_markups_buttons:
+                pass
 
     @property
     def data(self):
