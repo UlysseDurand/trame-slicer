@@ -1,4 +1,7 @@
 from trame.widgets.vuetify3 import Template
+from trame.widgets import html
+from trame.widgets.radial_menu import RadItem, RadMenu, RadWheel
+
 from trame_server import Server
 
 from trame_slicer.core import LayoutManager
@@ -53,6 +56,17 @@ class MedicalViewerUI:
 
             with self.layout.content:
                 layout_manager.initialize_layout_grid(self.layout)
+                with RadMenu() as menu:
+                    with RadWheel():
+                        with RadItem():
+                            html.H1("TEST1")
+                        with RadItem():
+                            html.H1("TEST2")
+                        with RadItem():
+                            html.H1("TEST3")
+                    with menu.sideMenu():
+                        html.H1("TEST 4")
+                    
 
     @property
     def data(self):
