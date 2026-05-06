@@ -23,7 +23,8 @@ class IslandsEffectLogic(BaseEffectLogic[IslandsState, SegmentationEffectIslands
         )
 
     def set_ui(self, ui: SegmentEditorUI) -> None:
-        self.set_effect_ui(ui.get_effect_ui(SegmentationEffectIslands))
+        for ui_elem in ui.get_effect_ui(SegmentationEffectIslands):
+            self.set_effect_ui(ui_elem)
 
     def set_effect_ui(self, islands_ui: IslandsEffectUI) -> None:
         islands_ui.apply_clicked.connect(self._on_apply_clicked)

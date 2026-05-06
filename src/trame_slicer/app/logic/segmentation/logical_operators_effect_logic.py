@@ -19,7 +19,8 @@ class LogicalOperatorsEffectLogic(BaseEffectLogic[LogicalOperatorsState, Segment
         self.segmentation_editor.active_segment_id_changed.connect(self._update_available_segments)
 
     def set_ui(self, ui: SegmentEditorUI):
-        self.set_effect_ui(ui.get_effect_ui(SegmentationEffectLogicalOperators))
+        for ui_elem in ui.get_effect_ui(SegmentationEffectLogicalOperators):
+            self.set_effect_ui(ui_elem)
 
     def set_effect_ui(self, logical_operators_ui: LogicalOperatorsEffectUI):
         logical_operators_ui.apply_clicked.connect(self._on_apply_clicked)

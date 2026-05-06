@@ -16,10 +16,6 @@ class RadItemButton(RadItem):
     ) -> None:
         super().__init__(**kwargs)
 
-        def on_click():
-            self.ctrl.close_radial_menu()
-            click()
-
         with (
             self,
             VTooltip(text=name),
@@ -27,6 +23,6 @@ class RadItemButton(RadItem):
         ):
             VBtn(
                 icon=icon,
-                click=on_click,
+                click=click,
                 v_bind="props",
             )

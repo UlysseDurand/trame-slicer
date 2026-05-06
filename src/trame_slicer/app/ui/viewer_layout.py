@@ -95,7 +95,7 @@ class ViewerLayout(VAppLayout):
                 server.state.radial_menu_open = False
 
             server.controller.close_radial_menu = closeRadialmenu
-            with RadMenu(v_model=("radial_menu_open", False)) as self.rad_menu:
+            with RadMenu(v_model_open=("radial_menu_open", False)) as self.rad_menu:
                 self.rad_side_menu = self.rad_menu.side_menu()
 
             with (

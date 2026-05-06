@@ -9,7 +9,7 @@ class RadialMarkupsButton(RadWheel):
     clear_clicked = Signal()
 
     def __init__(self):
-        super().__init__()
+        super().__init__(color="#777b")
         self._markup_nodes = []
 
         with self:
@@ -62,14 +62,18 @@ class RadialMarkupsButton(RadWheel):
                 is_persistent=False,
             )
 
+            def clear_click():
+                self.ctrl.close_radial_menu()
+                self.clear_clicked()
             RadItemButton(
                 name="Clear Markups",
                 icon="mdi-trash-can-outline",
-                click=self.clear_clicked,
+                click=clear_click,
             )
 
     def _create_markups_buttons_on_radial_wheel(self, name: str, icon: str, node_type: str, is_persistent: bool) -> None:
         def on_click():
+            self.ctrl.close_radial_menu()
             self.place_node_type(node_type, is_persistent)
 
         RadItemButton(name=name, icon=icon, click=on_click)

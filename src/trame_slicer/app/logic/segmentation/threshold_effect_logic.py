@@ -17,7 +17,8 @@ class ThresholdEffectLogic(BaseEffectLogic[ThresholdState, SegmentationEffectThr
         self._volume_node = None
 
     def set_ui(self, ui: SegmentEditorUI):
-        self.set_effect_ui(ui.get_effect_ui(SegmentationEffectThreshold))
+        for ui_elem in ui.get_effect_ui(SegmentationEffectThreshold):
+            self.set_effect_ui(ui_elem)
 
     def set_effect_ui(self, threshold_ui: ThresholdEffectUI):
         threshold_ui.auto_threshold_clicked.connect(self._on_auto_threshold_clicked)

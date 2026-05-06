@@ -24,7 +24,8 @@ class SmoothingEffectLogic(BrushEffectLogic[SmoothingState, SegmentationEffectSm
         return self._typed_state.get_sub_state(self._typed_state.name.brush)
 
     def set_ui(self, ui: SegmentEditorUI):
-        self.set_effect_ui(ui.get_effect_ui(SegmentationEffectSmoothing))
+        for ui_elem in ui.get_effect_ui(SegmentationEffectSmoothing):
+            self.set_effect_ui(ui_elem)
         self.bind_changes(
             {
                 self.name.mode: self.set_smoothing_mode,

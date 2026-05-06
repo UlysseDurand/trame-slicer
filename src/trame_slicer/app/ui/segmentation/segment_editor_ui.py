@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from trame.widgets import html
+from trame.widgets.radial_menu import RadWheel
 from trame.widgets.vuetify3 import (
     VBtn,
     VCard,
@@ -31,6 +32,7 @@ from trame_slicer.segmentation import (
 
 from ..control_button import ControlButton
 from ..flex_container import FlexContainer
+from ..rad_item_button import RadItemButton
 from ..viewer_layout import ViewerLayoutState
 from .draw_effect_ui import DrawEffectUI
 from .islands_effect_ui import IslandsEffectUI
@@ -135,6 +137,96 @@ class SegmentEditorUI(FlexContainer):
                                 segment_edit_area_typed_state=self.sub_state(self._typed_state.name.segment_edit_area),
                                 variant="flat",
                             )
+    
+    def build_radial_menu_wheel_ui(self, **kwargs):
+        with RadWheel(v_if=(self._typed_state.name.segment_list.active_segment_id,), color="#7777"):
+            self._create_radial_effect_button(
+                "No tool",
+                "mdi-cursor-default",
+                SegmentationEffectNoTool,
+                **kwargs,
+            )
+            self._create_radial_effect_button(
+                "Paint",
+                "mdi-brush",
+                SegmentationEffectPaint,
+                **kwargs,
+            )
+            self._create_radial_effect_button(
+                "Erase",
+                "mdi-eraser",
+                SegmentationEffectErase,
+                **kwargs,
+            )
+            self._create_radial_effect_button(
+                "Scissors",
+                "mdi-content-cut",
+                SegmentationEffectScissors,
+                **kwargs,
+            )
+            self._create_radial_effect_button(
+                "Draw",
+                "mdi-draw",
+                SegmentationEffectDraw,
+                **kwargs,
+            )
+            if all:
+                self._create_radial_effect_button(
+                    "Logical Operators",
+                    "mdi-vector-intersection",
+                    SegmentationEffectLogicalOperators,
+                )
+                self._create_radial_effect_button(
+                    "Threshold",
+                    "mdi-auto-fix",
+                    SegmentationEffectThreshold,
+                )
+                self._create_radial_effect_button(
+                    "Islands",
+                    "mdi-scatter-plot",
+                    SegmentationEffectIslands,
+                    **kwargs,
+                )
+                self._create_radial_effect_button(
+                    "Smoothing",
+                    "mdi-square-rounded-outline",
+                    SegmentationEffectSmoothing,
+                    **kwargs,
+                )
+    
+    def _create_radial_effect_button(
+        self, 
+        name: str,
+        icon: str,
+        effect_type: type[SegmentationEffect],
+        **kwargs,    
+    ):
+        def on_click():
+            # self.ctrl.close_radial_menu()
+            self.effect_button_clicked(effect_type)
+
+        RadItemButton(
+            name=name,
+            icon=icon,
+            click=on_click,
+            active=self.is_active_effect(effect_type),
+            **kwargs
+        )
+
+    def build_radial_menu_side_menu_ui(self):
+        with (
+            FlexContainer(style="width: 300px; background-color: #7777"),
+            VCardText(style="display: flex; flex-direction: column; overflow-y: auto;"),
+            html.Div(style="margin-bottom: 10px;")
+        ):
+            self._register_effect_ui(SegmentationEffectPaint, PaintEffectUI)
+            self._register_effect_ui(SegmentationEffectErase, PaintEffectUI)
+            self._register_effect_ui(SegmentationEffectLogicalOperators, LogicalOperatorsEffectUI)
+            self._register_effect_ui(SegmentationEffectThreshold, ThresholdEffectUI)
+            self._register_effect_ui(SegmentationEffectIslands, IslandsEffectUI)
+            self._register_effect_ui(SegmentationEffectDraw, DrawEffectUI)
+            self._register_effect_ui(SegmentationEffectScissors, ScissorsEffectUI)
+            self._register_effect_ui(SegmentationEffectSmoothing, SmoothingEffectUI)
 
     def build_effect_buttons(self, all: bool = True, **kwargs):
         self._create_effect_button(
@@ -206,7 +298,9 @@ class SegmentEditorUI(FlexContainer):
         )
 
     def _register_effect_ui(self, effect_cls: type[SegmentationEffect], effect_ui_type: type):
-        self._effect_ui[effect_cls] = effect_ui_type(v_if=self.is_active_effect(effect_cls))
+        if (effect_cls not in self._effect_ui):
+            self._effect_ui[effect_cls] = []
+        self._effect_ui[effect_cls].append(effect_ui_type(v_if=self.is_active_effect(effect_cls)))
 
     def _create_segment_list(self):
         self.segment_list = SegmentList(
