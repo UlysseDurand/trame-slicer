@@ -8,8 +8,8 @@ class RadialMarkupsButton(RadWheel):
     place_node_type = Signal(str, bool)
     clear_clicked = Signal()
 
-    def __init__(self):
-        super().__init__(color="#777b")
+    def __init__(self, **kwargs):
+        super().__init__(color="#777b", **kwargs)
         self._markup_nodes = []
 
         with self:
