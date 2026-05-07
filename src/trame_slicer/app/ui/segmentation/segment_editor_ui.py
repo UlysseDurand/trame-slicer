@@ -139,7 +139,12 @@ class SegmentEditorUI(FlexContainer):
                             )
     
     def build_radial_menu_wheel_ui(self, **kwargs):
-        with RadWheel(v_if=(self._typed_state.name.segment_list.active_segment_id,), color="#7777"):
+        with RadWheel(
+            v_if=(self._typed_state.name.segment_list.active_segment_id,),
+            color="#aaad",
+            innerRadius=(40,),
+            outerRadius=(120,),
+        ):
             self._create_radial_effect_button(
                 "No tool",
                 "mdi-cursor-default",
@@ -193,6 +198,12 @@ class SegmentEditorUI(FlexContainer):
                     SegmentationEffectSmoothing,
                     **kwargs,
                 )
+            RadItemButton(
+                name="Add segment",
+                icon="mdi-plus",
+                click=self.add_segment_clicked,
+                **kwargs,
+            )
     
     def _create_radial_effect_button(
         self, 

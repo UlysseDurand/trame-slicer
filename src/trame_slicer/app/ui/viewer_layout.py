@@ -96,8 +96,10 @@ class ViewerLayout(VAppLayout):
                 server.state.radial_menu_open = False
 
             server.controller.close_radial_menu = closeRadialmenu
-            with RadMenu(v_model_open=("radial_menu_open", False)) as self.rad_menu:
+            with RadMenu(v_model_open=("radial_menu_open", False), color="#777d") as self.rad_menu:
                 self.rad_side_menu = html.Template(v_slot_side_menu="")
+                self.rad_bottom_left = html.Template(v_slot_bottom_left="")
+                self.rad_left_bottom = html.Template(v_slot_left_bottom="")
 
             with (
                 VNavigationDrawer(

@@ -1,5 +1,6 @@
+from trame.widgets import html
 from trame.widgets.radial_menu import RadWheel
-from trame.widgets.vuetify3 import Template
+from trame.widgets.vuetify3 import Template, VBtn, VTooltip
 from trame_server import Server
 
 from trame_slicer.core import LayoutManager
@@ -59,8 +60,35 @@ class MedicalViewerUI:
             with self.layout.rad_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_wheel_ui()
                 self.radial_markups_buttons = RadialMarkupsButton(v_else="")
+
             with self.layout.rad_side_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
+
+            with (
+                self.layout.rad_left_bottom,
+                VTooltip(text="Undo", location="start"),
+                html.Template(v_slot_activator="{ props }"),
+            ):
+                VBtn(
+                    icon="mdi-undo", 
+                    v_bind="props", 
+                    color="#777d", 
+                    size=(40,),
+                    click=self.tool_registry[SegmentEditorUI].undo_clicked,
+                )
+
+            with (
+                self.layout.rad_bottom_left,
+                VTooltip(text="Redo", location="bottom"),
+                html.Template(v_slot_activator="{ props }"),
+            ):
+                VBtn(
+                    icon="mdi-redo", 
+                    v_bind="props", 
+                    color="#777d", 
+                    size=(40,),
+                    click=self.tool_registry[SegmentEditorUI].redo_clicked,
+                )
 
     @property
     def data(self):
