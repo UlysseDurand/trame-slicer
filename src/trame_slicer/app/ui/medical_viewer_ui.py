@@ -56,11 +56,13 @@ class MedicalViewerUI:
             with self.layout.content:
                 layout_manager.initialize_layout_grid(self.layout)
             
-            with self.layout.rad_menu as rad_menu:
-                with RadialMarkupsButton() as self.radial_markups_buttons:
-                    self.tool_registry[SegmentEditorUI].build_radial_menu_wheel_ui()
-                with rad_menu.side_menu():
-                    self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
+            with (
+                self.layout.rad_menu, 
+                RadialMarkupsButton() as self.radial_markups_buttons
+            ):
+                self.tool_registry[SegmentEditorUI].build_radial_menu_wheel_ui()
+            with self.layout.rad_side_menu:
+                self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
 
     @property
     def data(self):

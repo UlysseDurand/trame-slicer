@@ -14,15 +14,12 @@ class RadItemButton(RadItem):
         click: Callable | str | None = None, 
         **kwargs,
     ) -> None:
-        super().__init__(**kwargs)
+        super().__init__(tooltipLabel=name, **kwargs)
 
-        with (
-            self,
-            VTooltip(text=name),
-            html.Template(v_slot_activator="{ props }"),
-        ):
+        with self:
             VBtn(
                 icon=icon,
                 click=click,
                 v_bind="props",
+                color="#00000099"
             )

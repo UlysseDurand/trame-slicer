@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from trame.ui.vuetify3 import VAppLayout
+from trame.widgets import html
 from trame.widgets.radial_menu import RadMenu
 from trame.widgets.vuetify3 import (
     VAppBar,
@@ -96,7 +97,7 @@ class ViewerLayout(VAppLayout):
 
             server.controller.close_radial_menu = closeRadialmenu
             with RadMenu(v_model_open=("radial_menu_open", False)) as self.rad_menu:
-                self.rad_side_menu = self.rad_menu.side_menu()
+                self.rad_side_menu = html.Template(v_slot_side_menu="")
 
             with (
                 VNavigationDrawer(
