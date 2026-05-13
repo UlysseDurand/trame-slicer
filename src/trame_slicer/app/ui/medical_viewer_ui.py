@@ -61,12 +61,12 @@ class MedicalViewerUI:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_wheel_ui()
                 self.radial_markups_buttons = RadialMarkupsButton(v_else="")
 
-            with self.layout.rad_side_menu:
+            with self.layout.rad_right_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
 
             with (
-                self.layout.rad_left_bottom,
-                VTooltip(text="Undo", location="start"),
+                self.layout.rad_bottom_right,
+                VTooltip(text="Undo", location="bottom"),
                 html.Template(v_slot_activator="{ props }"),
             ):
                 VBtn(
@@ -78,8 +78,8 @@ class MedicalViewerUI:
                 )
 
             with (
-                self.layout.rad_bottom_left,
-                VTooltip(text="Redo", location="bottom"),
+                self.layout.rad_right_bottom,
+                VTooltip(text="Redo", location="end"),
                 html.Template(v_slot_activator="{ props }"),
             ):
                 VBtn(
