@@ -91,21 +91,7 @@ class SegmentEditorUI(FlexContainer):
             )
 
             with FlexContainer(v_if=(self._typed_state.name.segment_list.active_segment_id,), fill_height=True):
-                with VCard(variant="flat", height="50%"):
-                    with VCardText(style="height: calc(100% - 64px); overflow-y: auto;"):
-                        self._create_segment_list()
-
-                    with (
-                        VCardActions(classes="justify-center", style="height: 64px;"),
-                        VTooltip(text="Add Segment"),
-                        Template(v_slot_activator="{ props }"),
-                    ):
-                        VBtn(
-                            v_bind="props",
-                            variant="tonal",
-                            icon="mdi-plus",
-                            click=self.add_segment_clicked,
-                        )
+                self.build_segment_list_ui()
                 VDivider()
                 with VCard(
                     v_if=(self._typed_state.name.segment_list.active_segment_id,),
@@ -138,12 +124,28 @@ class SegmentEditorUI(FlexContainer):
                                 variant="flat",
                             )
     
+    def build_segment_list_ui(self):
+        with VCard(variant="flat", height="50%"):
+            with VCardText(style="height: calc(100% - 64px); overflow-y: auto;"):
+                self._create_segment_list()
+
+            with (
+                VCardActions(classes="justify-center", style="height: 64px;"),
+                VTooltip(text="Add Segment"),
+                Template(v_slot_activator="{ props }"),
+            ):
+                VBtn(
+                    v_bind="props",
+                    variant="tonal",
+                    icon="mdi-plus",
+                    click=self.add_segment_clicked,
+                )
+
     def build_radial_menu_wheel_ui(self, **kwargs):
         with RadWheel(
-            v_if=(self._typed_state.name.segment_list.active_segment_id,),
+            v_if=("segment_menu_selected?'1':''",),
             color="#aaad",
-            innerRadius=(40,),
-            outerRadius=(120,),
+            outer_radius=(120,),
         ):
             self._create_radial_effect_button(
                 "No tool",
@@ -226,7 +228,7 @@ class SegmentEditorUI(FlexContainer):
 
     def build_radial_menu_side_menu_ui(self):
         with (
-            FlexContainer(style="width: 300px; background-color: #7777"),
+            FlexContainer(style="width: 300px; background-color: #777b"),
             VCardText(style="display: flex; flex-direction: column; overflow-y: auto;"),
             html.Div(style="margin-bottom: 10px;")
         ):

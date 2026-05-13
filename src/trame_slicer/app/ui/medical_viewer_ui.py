@@ -1,6 +1,5 @@
 from trame.widgets import html
-from trame.widgets.radial_menu import RadWheel
-from trame.widgets.vuetify3 import Template, VBtn, VTooltip
+from trame.widgets.vuetify3 import Template, VBtn, VCard, VTooltip
 from trame_server import Server
 
 from trame_slicer.core import LayoutManager
@@ -63,6 +62,27 @@ class MedicalViewerUI:
 
             with self.layout.rad_right_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
+            
+            with self.layout.rad_up_menu, VCard(style="width: 300px;"):
+                self.tool_registry[SegmentEditorUI].build_segment_list_ui()
+
+            with self.layout.rad_left_top:
+                server.state.segment_menu_selected = False
+                with (
+                    VTooltip(text=("segment_menu_selected?'Markers':'Segments'",), location="start"),
+                    html.Template(v_slot_activator="{ props }")
+                ):
+                    def toggle_segment_menu_selected():
+                        server.state.segment_menu_selected = not(server.state.segment_menu_selected)
+                    VBtn(
+                        icon=("segment_menu_selected?'mdi-square':'mdi-circle'",),
+                        v_bind="props",
+                        color="#777d",
+                        size=(40,),
+                        click= toggle_segment_menu_selected,
+                        active="segment_menu_selected",
+                        variant="flat",
+                    )
 
             with (
                 self.layout.rad_bottom_right,
@@ -75,6 +95,7 @@ class MedicalViewerUI:
                     color="#777d", 
                     size=(40,),
                     click=self.tool_registry[SegmentEditorUI].undo_clicked,
+                    variant="flat",
                 )
 
             with (
@@ -88,7 +109,13 @@ class MedicalViewerUI:
                     color="#777d", 
                     size=(40,),
                     click=self.tool_registry[SegmentEditorUI].redo_clicked,
+                    variant="flat",
                 )
+            
+            with self.layout.rad_bottom_left:
+                html.Div()
+            with self.layout.rad_left_bottom:
+                html.Div()
 
     @property
     def data(self):
