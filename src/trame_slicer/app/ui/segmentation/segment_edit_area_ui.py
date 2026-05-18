@@ -42,29 +42,29 @@ class SegmentEditAreaUI(VCard):
                         click_stop=f"{self._typed_state.name.is_extended} = !{self._typed_state.name.is_extended};",
                         size="small",
                     )
-
             with VCardText(
                 v_if=(self._typed_state.name.is_extended,),
                 classes="align-center",
             ):
-                DynamicSelect(
-                    label="Editable Area",
-                    state=self._typed_state.get_sub_state(self._typed_state.name.mask_select),
-                )
-                VSelect(
-                    label="Overwrite mode",
-                    v_model=self._typed_state.name.overwrite_mode,
-                    items=(
-                        [
-                            {"title": enum_to_title(e), "value": self._typed_state.encode(e)}
-                            for e in SegmentationOverwriteMode
-                        ],
-                    ),
-                    item_value="value",
-                    item_title="title",
-                    hide_details=True,
-                    density="compact",
-                    style="margin-top: 5px;",
-                )
+                self.build_masking_options()
 
-                VolumeIntensityRangeMaskUI(classes="pt-6")
+    def build_masking_options(self):
+        DynamicSelect(
+            label="Editable Area",
+            state=self._typed_state.get_sub_state(self._typed_state.name.mask_select),
+        )
+        VSelect(
+            label="Overwrite mode",
+            v_model=self._typed_state.name.overwrite_mode,
+            items=(
+                [
+                    {"title": enum_to_title(e), "value": self._typed_state.encode(e)}
+                    for e in SegmentationOverwriteMode
+                ],
+            ),
+            item_value="value",
+            item_title="title",
+            hide_details=True,
+            density="compact",
+            style="margin-top: 5px;",
+        )

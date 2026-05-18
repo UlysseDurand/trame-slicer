@@ -119,7 +119,7 @@ class SegmentEditorUI(FlexContainer):
                                 variant="flat",
                             )
                             VDivider()
-                            SegmentEditAreaUI(
+                            self.segment_edit_area_ui = SegmentEditAreaUI(
                                 segment_edit_area_typed_state=self.sub_state(self._typed_state.name.segment_edit_area),
                                 variant="flat",
                             )
@@ -140,6 +140,10 @@ class SegmentEditorUI(FlexContainer):
                     icon="mdi-plus",
                     click=self.add_segment_clicked,
                 )
+    
+    def build_masking_options_ui(self):
+        print("TEST")
+        self.segment_edit_area_ui.build_masking_options() 
 
     def build_radial_menu_wheel_ui(self, **kwargs):
         with RadWheel(
@@ -200,12 +204,6 @@ class SegmentEditorUI(FlexContainer):
                     SegmentationEffectSmoothing,
                     **kwargs,
                 )
-            RadItemButton(
-                name="Add segment",
-                icon="mdi-plus",
-                click=self.add_segment_clicked,
-                **kwargs,
-            )
     
     def _create_radial_effect_button(
         self, 

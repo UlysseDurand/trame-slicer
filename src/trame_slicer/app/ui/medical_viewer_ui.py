@@ -65,6 +65,9 @@ class MedicalViewerUI:
             
             with self.layout.rad_up_menu, VCard(style="width: 300px;"):
                 self.tool_registry[SegmentEditorUI].build_segment_list_ui()
+            
+            with self.layout.rad_down_menu, VCard(style="width: 300px;"):
+                self.tool_registry[SegmentEditorUI].build_masking_options_ui()
 
             with self.layout.rad_left_top:
                 server.state.segment_menu_selected = False
@@ -75,12 +78,54 @@ class MedicalViewerUI:
                     def toggle_segment_menu_selected():
                         server.state.segment_menu_selected = not(server.state.segment_menu_selected)
                     VBtn(
-                        icon=("segment_menu_selected?'mdi-square':'mdi-circle'",),
+                        icon=("segment_menu_selected ? 'mdi-circle-small' : 'mdi-brush'",),
                         v_bind="props",
                         color="#777d",
                         size=(40,),
                         click= toggle_segment_menu_selected,
                         active="segment_menu_selected",
+                        variant="flat",
+                    )
+            
+            with self.layout.rad_top_left:
+                server.state.radial_up_menu_open = False
+                with (
+                    VTooltip(
+                        text=("radial_up_menu_open ? 'Close segments list' : 'Open segments list'",), 
+                        location="top"
+                    ),
+                    html.Template(v_slot_activator="{ props }"),
+                ):
+                    def toggle_up_menu_open():
+                        server.state.radial_up_menu_open = not(server.state.radial_up_menu_open)
+                    VBtn(
+                        icon=("radial_up_menu_open?'mdi-chevron-down':'mdi-chevron-up'",), 
+                        v_bind="props", 
+                        color="#777d", 
+                        size=(40,),
+                        click=toggle_up_menu_open,
+                        active="radial_up_menu_open",
+                        variant="flat",
+                    )
+
+            with self.layout.rad_bottom_left:
+                server.state.radial_down_menu_open = False
+                with (
+                    VTooltip(
+                        text=("radial_down_menu_open ? 'Close masking options' : 'Open masking options'",), 
+                        location="bottom"
+                    ),
+                    html.Template(v_slot_activator="{ props }"),
+                ):
+                    def toggle_down_menu_open():
+                        server.state.radial_down_menu_open = not(server.state.radial_down_menu_open)
+                    VBtn(
+                        icon=("radial_down_menu_open?'mdi-chevron-up':'mdi-chevron-down'",), 
+                        v_bind="props", 
+                        color="#777d", 
+                        size=(40,),
+                        click=toggle_down_menu_open,
+                        active="radial_down_menu_open",
                         variant="flat",
                     )
 

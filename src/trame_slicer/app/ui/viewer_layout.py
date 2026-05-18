@@ -96,13 +96,22 @@ class ViewerLayout(VAppLayout):
                 server.state.radial_menu_open = False
 
             server.controller.close_radial_menu = closeRadialmenu
-            with RadMenu(v_model_open=("radial_menu_open", False), color="#777d") as self.rad_menu:
+            with RadMenu(
+                v_model_open=("radial_menu_open", False), 
+                v_model_upmenuopen=("radial_up_menu_open",), 
+                v_model_downmenuopen=("radial_down_menu_open",), 
+                color="#777d"
+            ) as self.rad_menu:
                 self.rad_right_menu = html.Template(v_slot_right_menu="")
                 self.rad_up_menu = html.Template(v_slot_up_menu="")
+                self.rad_down_menu = html.Template(v_slot_down_menu="")
                 self.rad_bottom_right = html.Template(v_slot_bottom_right="")
                 self.rad_right_bottom = html.Template(v_slot_right_bottom="")
-                self.rad_left_bottom = html.Template(v_slot_left_bottom="")
+                self.rad_right_top = html.Template(v_slot_right_top="")
+                self.rad_top_right = html.Template(v_slot_top_right="")
+                self.rad_top_left = html.Template(v_slot_top_left="")
                 self.rad_left_top = html.Template(v_slot_left_top="")
+                self.rad_left_bottom = html.Template(v_slot_left_bottom="")
                 self.rad_bottom_left = html.Template(v_slot_bottom_left="")
 
             with (
