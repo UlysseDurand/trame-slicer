@@ -82,22 +82,13 @@ class ViewerLayout(VAppLayout):
 
             with VMain():
                 self.content = FlexContainer(row=True, fill_height=True)
-
-            self.drawer = VNavigationDrawer(
-                disable_resize_watcher=True,
-                disable_route_watcher=True,
-                permanent=True,
-                location="left",
-                v_model=(self.typed_state.name.is_drawer_visible,),
-                width=350,
-            )
-
             def closeRadialmenu():
                 server.state.radial_menu_open = False
 
             server.controller.close_radial_menu = closeRadialmenu
             with RadMenu(
                 v_model_open=("radial_menu_open", False), 
+                v_model_rightmenuopen=("radial_right_menu_open",), 
                 v_model_upmenuopen=("radial_up_menu_open",), 
                 v_model_downmenuopen=("radial_down_menu_open",), 
                 color="#777d"
@@ -113,6 +104,16 @@ class ViewerLayout(VAppLayout):
                 self.rad_left_top = html.Template(v_slot_left_top="")
                 self.rad_left_bottom = html.Template(v_slot_left_bottom="")
                 self.rad_bottom_left = html.Template(v_slot_bottom_left="")
+
+            self.drawer = VNavigationDrawer(
+                disable_resize_watcher=True,
+                disable_route_watcher=True,
+                permanent=True,
+                location="left",
+                v_model=(self.typed_state.name.is_drawer_visible, is_drawer_visible),
+                width=350,
+            )
+
 
             with (
                 VNavigationDrawer(

@@ -142,7 +142,6 @@ class SegmentEditorUI(FlexContainer):
                 )
     
     def build_masking_options_ui(self):
-        print("TEST")
         self.segment_edit_area_ui.build_masking_options() 
 
     def build_radial_menu_wheel_ui(self, **kwargs):
