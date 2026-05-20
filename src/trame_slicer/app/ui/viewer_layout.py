@@ -82,15 +82,22 @@ class ViewerLayout(VAppLayout):
 
             with VMain():
                 self.content = FlexContainer(row=True, fill_height=True)
-            def closeRadialmenu():
-                server.state.radial_menu_open = False
 
-            server.controller.close_radial_menu = closeRadialmenu
+            def close_radial_menu():
+                server.state.radial_menu_open = False
+            def open_radial_menu_at_mouse_pos():
+                server.js_call(ref="radMenu", method="openAtCursor")
+                server.state.radial_menu_open = True
+            server.controller.close_radial_menu = close_radial_menu
+            server.controller.open_radial_menu_at_mouse_pos = open_radial_menu_at_mouse_pos
+
             with RadMenu(
+                ref="radMenu",
                 v_model_open=("radial_menu_open", False), 
                 v_model_rightmenuopen=("radial_right_menu_open",), 
                 v_model_upmenuopen=("radial_up_menu_open",), 
                 v_model_downmenuopen=("radial_down_menu_open",), 
+                open_at_right_click_pos=False,
                 color="#777d"
             ) as self.rad_menu:
                 self.rad_right_menu = html.Template(v_slot_right_menu="")

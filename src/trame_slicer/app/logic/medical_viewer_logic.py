@@ -1,6 +1,8 @@
+from slicer import vtkMRMLApplicationLogic, vtkMRMLInteractionNode
+from trame.widgets import html
 from trame_server import Server
 
-from trame_slicer.core import LayoutManager, SlicerApp
+from trame_slicer.core import LayoutManager, SlicerApp, ViewManager
 from trame_slicer.rca_view import register_rca_factories
 
 from ..ui import MedicalViewerUI, SegmentEditorUI, ViewerLayoutState, VolumePropertyUI
@@ -33,6 +35,14 @@ class MedicalViewerLogic(BaseLogic[ViewerLayoutState]):
         self._download_scene_logic = DownloadSceneLogic(server, slicer_app)
         self._slab_logic = SlabLogic(server, slicer_app)
         self._mpr_logic = MprInteractionButtonLogic(server, slicer_app)
+
+        # Intercept right click
+        self.app_logic: vtkMRMLApplicationLogic = slicer_app.app_logic
+        interaction_node = self.app_logic.GetInteractionNode()
+        interaction_node.AddObserver(
+            vtkMRMLInteractionNode.ShowViewContextMenuEvent, 
+            lambda *_: server.controller.open_radial_menu_at_mouse_pos()
+        )
 
         # Connect signals
         self._load_files_logic.volume_loaded.connect(self._on_volume_changed)
