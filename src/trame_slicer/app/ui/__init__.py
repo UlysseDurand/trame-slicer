@@ -6,6 +6,7 @@ from .flex_container import FlexContainer
 from .layout_button import LayoutButton, LayoutButtonState
 from .load_volume_ui import LoadVolumeState, LoadVolumeUI
 from .markups_button import MarkupsButton
+from .markups_options import FiducialMarkupOptionsUI, MarkupsContextMenu
 from .medical_viewer_ui import MedicalViewerUI
 from .mpr_interaction_button import MprInteractionButton, MprInteractionButtonState
 from .radial_markup_buttons import RadialMarkupsButton
@@ -65,6 +66,7 @@ __all__ = [
     "DrawEffectUI",
     "DynamicSelect",
     "DynamicSelectState",
+    "FiducialMarkupOptionsUI",
     "FlexContainer",
     "IslandsEffectUI",
     "IslandsState",
@@ -76,6 +78,7 @@ __all__ = [
     "LogicalOperatorsSegmentationMode",
     "LogicalOperatorsState",
     "MarkupsButton",
+    "MarkupsContextMenu",
     "MedicalViewerUI",
     "MprInteractionButton",
     "MprInteractionButtonState",
@@ -122,5 +125,5 @@ __all__ = [
     "create_vertical_slice_view_gutter_ui",
     "create_vertical_view_gutter_ui",
     "enum_to_radio_buttons",
-    "enum_to_title",
+    "enum_to_title"
 ]

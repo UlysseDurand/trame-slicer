@@ -83,34 +83,58 @@ class ViewerLayout(VAppLayout):
             with VMain():
                 self.content = FlexContainer(row=True, fill_height=True)
 
-            def close_radial_menu():
-                server.state.radial_menu_open = False
-            def open_radial_menu_at_mouse_pos():
-                server.js_call(ref="radMenu", method="openAtCursor")
-                server.state.radial_menu_open = True
-            server.controller.close_radial_menu = close_radial_menu
-            server.controller.open_radial_menu_at_mouse_pos = open_radial_menu_at_mouse_pos
+            def close_tool_rad_menu():
+                server.state.tool_rad_menu_open = False
+            def open_tool_rad_menu_at_mouse_pos():
+                server.js_call(ref="toolRadMenu", method="openAtCursor")
+            server.controller.close_tool_rad_menu = close_tool_rad_menu
+            server.controller.open_tool_rad_menu_at_mouse_pos = open_tool_rad_menu_at_mouse_pos
 
             with RadMenu(
-                ref="radMenu",
-                v_model_open=("radial_menu_open", False), 
-                v_model_rightmenuopen=("radial_right_menu_open",), 
-                v_model_upmenuopen=("radial_up_menu_open",), 
-                v_model_downmenuopen=("radial_down_menu_open",), 
+                ref="toolRadMenu",
+                v_model_open=("tool_rad_menu_open", False), 
+                v_model_rightmenuopen=("tool_rad_menu_right_menu_open",), 
+                v_model_upmenuopen=("tool_rad_menu_up_menu_open",), 
+                v_model_downmenuopen=("tool_rad_menu_down_menu_open",), 
                 open_at_right_click_pos=False,
                 color="#777d"
-            ) as self.rad_menu:
-                self.rad_right_menu = html.Template(v_slot_right_menu="")
-                self.rad_up_menu = html.Template(v_slot_up_menu="")
-                self.rad_down_menu = html.Template(v_slot_down_menu="")
-                self.rad_bottom_right = html.Template(v_slot_bottom_right="")
-                self.rad_right_bottom = html.Template(v_slot_right_bottom="")
-                self.rad_right_top = html.Template(v_slot_right_top="")
-                self.rad_top_right = html.Template(v_slot_top_right="")
-                self.rad_top_left = html.Template(v_slot_top_left="")
-                self.rad_left_top = html.Template(v_slot_left_top="")
-                self.rad_left_bottom = html.Template(v_slot_left_bottom="")
-                self.rad_bottom_left = html.Template(v_slot_bottom_left="")
+            ) as self.tool_rad_menu:
+                self.tool_rad_menu.right_menu = html.Template(v_slot_right_menu="")
+                self.tool_rad_menu.up_menu = html.Template(v_slot_up_menu="")
+                self.tool_rad_menu.down_menu = html.Template(v_slot_down_menu="")
+                self.tool_rad_menu.bottom_right = html.Template(v_slot_bottom_right="")
+                self.tool_rad_menu.right_bottom = html.Template(v_slot_right_bottom="")
+                self.tool_rad_menu.right_top = html.Template(v_slot_right_top="")
+                self.tool_rad_menu.top_right = html.Template(v_slot_top_right="")
+                self.tool_rad_menu.top_left = html.Template(v_slot_top_left="")
+                self.tool_rad_menu.left_top = html.Template(v_slot_left_top="")
+                self.tool_rad_menu.left_bottom = html.Template(v_slot_left_bottom="")
+                self.tool_rad_menu.bottom_left = html.Template(v_slot_bottom_left="")
+            
+            def close_markup_options_rad_menu():
+                server.state.markup_options_rad_menu_open = False
+            def open_marker_options_rad_menu_at_mouse_pos():
+                server.js_call(ref="markupOptionsRadMenu", method="openAtCursor")
+            server.controller.close_markup_options_rad_menu = close_markup_options_rad_menu
+            server.controller.open_markup_options_rad_menu_at_mouse_pos = open_marker_options_rad_menu_at_mouse_pos
+
+            with RadMenu(
+                ref="markupOptionsRadMenu",
+                v_model_open=("markup_options_rad_menu_open", False), 
+                v_model_rightmenuopen=("markup_options_rad_menu_right_menu_open", True),
+                open_at_right_click_pos=False,
+                color="#777d"
+            ) as self.markup_options_rad_menu:
+                self.markup_options_rad_menu.central = html.Template(v_slot_central="")
+                self.markup_options_rad_menu.right_menu = html.Template(v_slot_right_menu="")
+                self.markup_options_rad_menu.bottom_right = html.Template(v_slot_bottom_right="")
+                self.markup_options_rad_menu.right_bottom = html.Template(v_slot_right_bottom="")
+                self.markup_options_rad_menu.right_top = html.Template(v_slot_right_top="")
+                self.markup_options_rad_menu.top_right = html.Template(v_slot_top_right="")
+                self.markup_options_rad_menu.top_left = html.Template(v_slot_top_left="")
+                self.markup_options_rad_menu.left_top = html.Template(v_slot_left_top="")
+                self.markup_options_rad_menu.left_bottom = html.Template(v_slot_left_bottom="")
+                self.markup_options_rad_menu.bottom_left = html.Template(v_slot_bottom_left="")
 
             self.drawer = VNavigationDrawer(
                 disable_resize_watcher=True,

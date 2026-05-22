@@ -39,7 +39,7 @@ class MedicalViewerLogic(BaseLogic[ViewerLayoutState]):
         self.app_logic = slicer_app.app_logic
         self.app_logic.AddObserver(
             vtkMRMLApplicationLogic.ShowViewContextMenuEvent,
-            lambda *_: server.controller.open_radial_menu_at_mouse_pos()
+            lambda *_: server.controller.open_tool_rad_menu_at_mouse_pos()
         )
 
         # Connect signals

@@ -73,7 +73,7 @@ class RadialMarkupsButton(RadWheel):
 
     def _create_markups_buttons_on_radial_wheel(self, name: str, icon: str, node_type: str, is_persistent: bool) -> None:
         def on_click():
-            self.ctrl.close_radial_menu()
+            self.ctrl.close_tool_rad_menu()
             self.place_node_type(node_type, is_persistent)
 
         RadItemButton(name=name, icon=icon, click=on_click)

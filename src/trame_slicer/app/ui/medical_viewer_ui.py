@@ -1,5 +1,10 @@
 from trame.widgets import html
-from trame.widgets.vuetify3 import Template, VBtn, VCard, VTooltip
+from trame.widgets.vuetify3 import (
+    Template,
+    VBtn,
+    VCard,
+    VTooltip,
+)
 from trame_server import Server
 
 from trame_slicer.core import LayoutManager
@@ -10,6 +15,7 @@ from .flex_container import FlexContainer
 from .layout_button import LayoutButton
 from .load_volume_ui import LoadVolumeUI
 from .markups_button import MarkupsButton
+from .markups_options import MarkupsContextMenu
 from .mpr_interaction_button import MprInteractionButton
 from .radial_markup_buttons import RadialMarkupsButton
 from .segmentation import (
@@ -56,20 +62,20 @@ class MedicalViewerUI:
             with self.layout.content:
                 layout_manager.initialize_layout_grid(self.layout)
             
-            with self.layout.rad_menu:
+            with self.layout.tool_rad_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_wheel_ui()
                 self.radial_markups_buttons = RadialMarkupsButton(v_else="")
 
-            with self.layout.rad_right_menu:
+            with self.layout.tool_rad_menu.right_menu:
                 self.tool_registry[SegmentEditorUI].build_radial_menu_side_menu_ui()
             
-            with self.layout.rad_up_menu, VCard(style="width: 300px;"):
+            with self.layout.tool_rad_menu.up_menu, VCard(style="width: 300px;"):
                 self.tool_registry[SegmentEditorUI].build_segment_list_ui()
             
-            with self.layout.rad_down_menu, VCard(style="width: 300px;"):
+            with self.layout.tool_rad_menu.down_menu, VCard(style="width: 300px;"):
                 self.tool_registry[SegmentEditorUI].build_masking_options_ui()
 
-            with self.layout.rad_left_top:
+            with self.layout.tool_rad_menu.left_top:
                 server.state.segment_menu_selected = False
                 with (
                     VTooltip(text=("segment_menu_selected?'Markers':'Segments'",), location="start"),
@@ -78,9 +84,9 @@ class MedicalViewerUI:
                     def toggle_segment_menu_selected():
                         server.state.segment_menu_selected = not(server.state.segment_menu_selected)
                         if not(server.state.segment_menu_selected):
-                            server.state.radial_right_menu_open = False
-                            server.state.radial_up_menu_open = False
-                            server.state.radial_down_menu_open = False
+                            server.state.tool_rad_menu_right_menu_open = False
+                            server.state.tool_rad_menu_up_menu_open = False
+                            server.state.tool_rad_menu_down_menu_open = False
                     VBtn(
                         icon=("segment_menu_selected ? 'mdi-circle-small' : 'mdi-brush'",),
                         v_bind="props",
@@ -91,75 +97,75 @@ class MedicalViewerUI:
                         variant="flat",
                     )
 
-            with self.layout.rad_right_top:
-                server.state.radial_right_menu_open = False
+            with self.layout.tool_rad_menu.right_top:
+                server.state.tool_rad_menu_right_menu_open = False
                 with (
                     VTooltip(
-                        text=("radial_right_menu_open ? 'Close segmentation tool options' : 'Open segmentation tool options'",), 
+                        text=("tool_rad_menu_right_menu_open ? 'Close segmentation tool options' : 'Open segmentation tool options'",), 
                         v_if="segment_menu_selected",
                         location="end"
                     ),
                     html.Template(v_slot_activator="{ props }")
                 ):
-                    def toggle_right_menu_open():
-                        server.state.radial_right_menu_open = not(server.state.radial_right_menu_open)
+                    def toggle_tool_rad_menu_right_menu_open():
+                        server.state.tool_rad_menu_right_menu_open = not(server.state.tool_rad_menu_right_menu_open)
                     VBtn(
-                        icon=("radial_right_menu_open?'mdi-chevron-left':'mdi-chevron-right'",), 
+                        icon=("tool_rad_menu_right_menu_open?'mdi-chevron-left':'mdi-chevron-right'",), 
                         v_bind="props", 
                         color="#777d", 
                         size=(40,),
-                        click=toggle_right_menu_open,
-                        active="radial_right_menu_open",
+                        click=toggle_tool_rad_menu_right_menu_open,
+                        active="tool_rad_menu_right_menu_open",
                         variant="flat",
                     )
                 html.Div(v_else="")
             
-            with self.layout.rad_top_left:
-                server.state.radial_up_menu_open = False
+            with self.layout.tool_rad_menu.top_left:
+                server.state.tool_rad_menu_up_menu_open = False
                 with (
                     VTooltip(
-                        text=("radial_up_menu_open ? 'Close segments list' : 'Open segments list'",), 
+                        text=("tool_rad_menu_up_menu_open ? 'Close segments list' : 'Open segments list'",), 
                         v_if="segment_menu_selected",
                         location="top"
                     ),
                     html.Template(v_slot_activator="{ props }"),
                 ):
                     def toggle_up_menu_open():
-                        server.state.radial_up_menu_open = not(server.state.radial_up_menu_open)
+                        server.state.tool_rad_menu_up_menu_open = not(server.state.tool_rad_menu_up_menu_open)
                     VBtn(
-                        icon=("radial_up_menu_open?'mdi-chevron-down':'mdi-chevron-up'",), 
+                        icon=("tool_rad_menu_up_menu_open ? 'mdi-chevron-down' : 'mdi-chevron-up'",), 
                         v_bind="props", 
                         color="#777d", 
                         size=(40,),
                         click=toggle_up_menu_open,
-                        active="radial_up_menu_open",
+                        active="tool_rad_menu_up_menu_open",
                         variant="flat",
                     )
 
-            with self.layout.rad_bottom_left:
-                server.state.radial_down_menu_open = False
+            with self.layout.tool_rad_menu.bottom_left:
+                server.state.tool_rad_menu_down_menu_open = False
                 with (
                     VTooltip(
-                        text=("radial_down_menu_open ? 'Close masking options' : 'Open masking options'",), 
+                        text=("tool_rad_menu_down_menu_open ? 'Close masking options' : 'Open masking options'",), 
                         v_if="segment_menu_selected",
                         location="bottom"
                     ),
                     html.Template(v_slot_activator="{ props }"),
                 ):
                     def toggle_down_menu_open():
-                        server.state.radial_down_menu_open = not(server.state.radial_down_menu_open)
+                        server.state.tool_rad_menu_down_menu_open = not(server.state.tool_rad_menu_down_menu_open)
                     VBtn(
-                        icon=("radial_down_menu_open?'mdi-chevron-up':'mdi-chevron-down'",), 
+                        icon=("mdi-domino-mask",), 
                         v_bind="props", 
                         color="#777d", 
                         size=(40,),
                         click=toggle_down_menu_open,
-                        active="radial_down_menu_open",
+                        active="tool_rad_menu_down_menu_open",
                         variant="flat",
                     )
 
             with (
-                self.layout.rad_bottom_right,
+                self.layout.tool_rad_menu.bottom_right,
                 VTooltip(text="Undo", v_if="segment_menu_selected", location="bottom"),
                 html.Template(v_slot_activator="{ props }"),
             ):
@@ -173,7 +179,7 @@ class MedicalViewerUI:
                 )
 
             with (
-                self.layout.rad_right_bottom,
+                self.layout.tool_rad_menu.right_bottom,
                 VTooltip(text="Redo", v_if="segment_menu_selected", location="end"),
                 html.Template(v_slot_activator="{ props }"),
             ):
@@ -186,10 +192,16 @@ class MedicalViewerUI:
                     variant="flat",
                 )
             
-            with self.layout.rad_bottom_left:
+            server.state.markup_options_rad_menu_right_menu_open = True
+            with self.layout.markup_options_rad_menu.right_menu:
+                self.markups_button.markups_context_menu = MarkupsContextMenu()
+            with self.layout.markup_options_rad_menu.top_right:
                 html.Div()
-            with self.layout.rad_left_bottom:
+            with self.layout.markup_options_rad_menu.right_top:
                 html.Div()
+            with self.layout.markup_options_rad_menu.central:
+                html.Div()
+
 
     @property
     def data(self):
