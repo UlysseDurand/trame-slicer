@@ -155,7 +155,7 @@ class MedicalViewerUI:
                     def toggle_down_menu_open():
                         server.state.tool_rad_menu_down_menu_open = not(server.state.tool_rad_menu_down_menu_open)
                     VBtn(
-                        icon=("mdi-domino-mask",), 
+                        icon="mdi-domino-mask", 
                         v_bind="props", 
                         color="#777d", 
                         size=(40,),
